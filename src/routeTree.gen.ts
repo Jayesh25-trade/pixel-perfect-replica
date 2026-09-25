@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DailyBookRouteImport } from './routes/daily-book'
+import { Route as DriverVouchersRouteImport } from './routes/driver-vouchers'
+import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as BillsIndexRouteImport } from './routes/bills.index'
+import { Route as BillsCreateRouteImport } from './routes/bills.create'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DailyBookRoute = DailyBookRouteImport.update({
+  id: '/daily-book',
+  path: '/daily-book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DriverVouchersRoute = DriverVouchersRouteImport.update({
+  id: '/driver-vouchers',
+  path: '/driver-vouchers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BillsIndexRoute = BillsIndexRouteImport.update({
+  id: '/bills/',
+  path: '/bills/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BillsCreateRoute = BillsCreateRouteImport.update({
+  id: '/bills/create',
+  path: '/bills/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/daily-book': typeof DailyBookRoute
+  '/driver-vouchers': typeof DriverVouchersRoute
+  '/payments': typeof PaymentsRoute
+  '/bills/create': typeof BillsCreateRoute
+  '/bills/': typeof BillsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/daily-book': typeof DailyBookRoute
+  '/driver-vouchers': typeof DriverVouchersRoute
+  '/payments': typeof PaymentsRoute
+  '/bills/create': typeof BillsCreateRoute
+  '/bills': typeof BillsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/daily-book': typeof DailyBookRoute
+  '/driver-vouchers': typeof DriverVouchersRoute
+  '/payments': typeof PaymentsRoute
+  '/bills/create': typeof BillsCreateRoute
+  '/bills/': typeof BillsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/daily-book'
+    | '/driver-vouchers'
+    | '/payments'
+    | '/bills/create'
+    | '/bills/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/daily-book'
+    | '/driver-vouchers'
+    | '/payments'
+    | '/bills/create'
+    | '/bills'
+  id:
+    | '__root__'
+    | '/'
+    | '/daily-book'
+    | '/driver-vouchers'
+    | '/payments'
+    | '/bills/create'
+    | '/bills/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DailyBookRoute: typeof DailyBookRoute
+  DriverVouchersRoute: typeof DriverVouchersRoute
+  PaymentsRoute: typeof PaymentsRoute
+  BillsCreateRoute: typeof BillsCreateRoute
+  BillsIndexRoute: typeof BillsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/daily-book': {
+      id: '/daily-book'
+      path: '/daily-book'
+      fullPath: '/daily-book'
+      preLoaderRoute: typeof DailyBookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/driver-vouchers': {
+      id: '/driver-vouchers'
+      path: '/driver-vouchers'
+      fullPath: '/driver-vouchers'
+      preLoaderRoute: typeof DriverVouchersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bills/': {
+      id: '/bills/'
+      path: '/bills'
+      fullPath: '/bills/'
+      preLoaderRoute: typeof BillsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bills/create': {
+      id: '/bills/create'
+      path: '/bills/create'
+      fullPath: '/bills/create'
+      preLoaderRoute: typeof BillsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DailyBookRoute: DailyBookRoute,
+  DriverVouchersRoute: DriverVouchersRoute,
+  PaymentsRoute: PaymentsRoute,
+  BillsCreateRoute: BillsCreateRoute,
+  BillsIndexRoute: BillsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
