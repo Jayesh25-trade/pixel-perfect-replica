@@ -45,7 +45,7 @@ function Aging() {
           total: 0,
         };
       entry.bills += 1;
-      entry.buckets[key] = +(entry.buckets[key] + s.outstanding).toFixed(2);
+      entry.buckets[key] = +((entry.buckets[key] ?? 0) + s.outstanding).toFixed(2);
       entry.total = +(entry.total + s.outstanding).toFixed(2);
       byParty.set(party.id, entry);
     });
@@ -54,7 +54,7 @@ function Aging() {
 
   const totals = AGING_BUCKETS.map((b) => ({
     ...b,
-    amount: rows.reduce((s, r) => s + r.buckets[b.key], 0),
+    amount: rows.reduce((s, r) => s + (r.buckets[b.key] ?? 0), 0),
   }));
   const grand = rows.reduce((s, r) => s + r.total, 0);
 
@@ -98,7 +98,7 @@ function Aging() {
                   <Td align="right">{r.bills}</Td>
                   {AGING_BUCKETS.map((b) => (
                     <Td key={b.key} align="right">
-                      {r.buckets[b.key] ? money(r.buckets[b.key]) : "—"}
+                      {r.buckets[b.key] ? money(r.buckets[b.key] ?? 0) : "—"}
                     </Td>
                   ))}
                   <Td align="right" className="font-semibold">
