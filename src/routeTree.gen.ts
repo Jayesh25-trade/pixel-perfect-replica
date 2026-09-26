@@ -12,9 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DailyBookRouteImport } from './routes/daily-book'
 import { Route as DriverVouchersRouteImport } from './routes/driver-vouchers'
+import { Route as LedgerRouteImport } from './routes/ledger'
+import { Route as MastersRouteImport } from './routes/masters'
 import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as BillsIndexRouteImport } from './routes/bills.index'
 import { Route as BillsCreateRouteImport } from './routes/bills.create'
+import { Route as ReportsAgingRouteImport } from './routes/reports.aging'
+import { Route as ReportsOutstandingRouteImport } from './routes/reports.outstanding'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -31,9 +36,24 @@ const DriverVouchersRoute = DriverVouchersRouteImport.update({
   path: '/driver-vouchers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LedgerRoute = LedgerRouteImport.update({
+  id: '/ledger',
+  path: '/ledger',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MastersRoute = MastersRouteImport.update({
+  id: '/masters',
+  path: '/masters',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PaymentsRoute = PaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BillsIndexRoute = BillsIndexRouteImport.update({
@@ -46,21 +66,41 @@ const BillsCreateRoute = BillsCreateRouteImport.update({
   path: '/bills/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportsAgingRoute = ReportsAgingRouteImport.update({
+  id: '/reports/aging',
+  path: '/reports/aging',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsOutstandingRoute = ReportsOutstandingRouteImport.update({
+  id: '/reports/outstanding',
+  path: '/reports/outstanding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/daily-book': typeof DailyBookRoute
   '/driver-vouchers': typeof DriverVouchersRoute
+  '/ledger': typeof LedgerRoute
+  '/masters': typeof MastersRoute
   '/payments': typeof PaymentsRoute
+  '/settings': typeof SettingsRoute
   '/bills/create': typeof BillsCreateRoute
+  '/reports/aging': typeof ReportsAgingRoute
+  '/reports/outstanding': typeof ReportsOutstandingRoute
   '/bills/': typeof BillsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/daily-book': typeof DailyBookRoute
   '/driver-vouchers': typeof DriverVouchersRoute
+  '/ledger': typeof LedgerRoute
+  '/masters': typeof MastersRoute
   '/payments': typeof PaymentsRoute
+  '/settings': typeof SettingsRoute
   '/bills/create': typeof BillsCreateRoute
+  '/reports/aging': typeof ReportsAgingRoute
+  '/reports/outstanding': typeof ReportsOutstandingRoute
   '/bills': typeof BillsIndexRoute
 }
 export interface FileRoutesById {
@@ -68,8 +108,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/daily-book': typeof DailyBookRoute
   '/driver-vouchers': typeof DriverVouchersRoute
+  '/ledger': typeof LedgerRoute
+  '/masters': typeof MastersRoute
   '/payments': typeof PaymentsRoute
+  '/settings': typeof SettingsRoute
   '/bills/create': typeof BillsCreateRoute
+  '/reports/aging': typeof ReportsAgingRoute
+  '/reports/outstanding': typeof ReportsOutstandingRoute
   '/bills/': typeof BillsIndexRoute
 }
 export interface FileRouteTypes {
@@ -78,24 +123,39 @@ export interface FileRouteTypes {
     | '/'
     | '/daily-book'
     | '/driver-vouchers'
+    | '/ledger'
+    | '/masters'
     | '/payments'
+    | '/settings'
     | '/bills/create'
+    | '/reports/aging'
+    | '/reports/outstanding'
     | '/bills/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/daily-book'
     | '/driver-vouchers'
+    | '/ledger'
+    | '/masters'
     | '/payments'
+    | '/settings'
     | '/bills/create'
+    | '/reports/aging'
+    | '/reports/outstanding'
     | '/bills'
   id:
     | '__root__'
     | '/'
     | '/daily-book'
     | '/driver-vouchers'
+    | '/ledger'
+    | '/masters'
     | '/payments'
+    | '/settings'
     | '/bills/create'
+    | '/reports/aging'
+    | '/reports/outstanding'
     | '/bills/'
   fileRoutesById: FileRoutesById
 }
@@ -103,8 +163,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DailyBookRoute: typeof DailyBookRoute
   DriverVouchersRoute: typeof DriverVouchersRoute
+  LedgerRoute: typeof LedgerRoute
+  MastersRoute: typeof MastersRoute
   PaymentsRoute: typeof PaymentsRoute
+  SettingsRoute: typeof SettingsRoute
   BillsCreateRoute: typeof BillsCreateRoute
+  ReportsAgingRoute: typeof ReportsAgingRoute
+  ReportsOutstandingRoute: typeof ReportsOutstandingRoute
   BillsIndexRoute: typeof BillsIndexRoute
 }
 
@@ -131,11 +196,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DriverVouchersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ledger': {
+      id: '/ledger'
+      path: '/ledger'
+      fullPath: '/ledger'
+      preLoaderRoute: typeof LedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/masters': {
+      id: '/masters'
+      path: '/masters'
+      fullPath: '/masters'
+      preLoaderRoute: typeof MastersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/payments': {
       id: '/payments'
       path: '/payments'
       fullPath: '/payments'
       preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bills/': {
@@ -152,6 +238,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillsCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reports/aging': {
+      id: '/reports/aging'
+      path: '/reports/aging'
+      fullPath: '/reports/aging'
+      preLoaderRoute: typeof ReportsAgingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/outstanding': {
+      id: '/reports/outstanding'
+      path: '/reports/outstanding'
+      fullPath: '/reports/outstanding'
+      preLoaderRoute: typeof ReportsOutstandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -159,8 +259,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DailyBookRoute: DailyBookRoute,
   DriverVouchersRoute: DriverVouchersRoute,
+  LedgerRoute: LedgerRoute,
+  MastersRoute: MastersRoute,
   PaymentsRoute: PaymentsRoute,
+  SettingsRoute: SettingsRoute,
   BillsCreateRoute: BillsCreateRoute,
+  ReportsAgingRoute: ReportsAgingRoute,
+  ReportsOutstandingRoute: ReportsOutstandingRoute,
   BillsIndexRoute: BillsIndexRoute,
 }
 export const routeTree = rootRouteImport

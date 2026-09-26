@@ -104,9 +104,9 @@ export interface Payment {
   kind: PaymentKind;
   amount: number;
   mode: PaymentMode;
-  bankName?: string;
-  reference?: string;
+  bankName?: string | undefined;
+  reference?: string | undefined;
   /** Allocations against bill ids; advances may be partially allocated. */
   allocations: { billId: string; amount: number }[];
-  narration?: string;
+  narration?: string | undefined;
 }
