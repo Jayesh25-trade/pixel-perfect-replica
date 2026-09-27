@@ -111,45 +111,83 @@ function Dashboard() {
         }
       />
 
-      <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard
-          tone="coral"
-          label="Total Outstanding"
-          value={money0(totalOutstanding)}
-          hint={`${summaries.filter((x) => x.s.outstanding > 0).length} open bills`}
-        />
-        <KpiCard tone="ink" label="Net Billed Revenue" value={money0(netBilled)} hint={`${bills.length} bills posted`} />
-        <KpiCard tone="sun" label="Payment Receipts" value={money0(receipts)} hint={`${payments.length} receipts`} />
-        <KpiCard label="Daily Book Trips" value={String(trips.length)} hint={`${trips.filter((t) => t.status === "RECEIVED").length} received · ${trips.filter((t) => t.status === "PENDING").length} pending`} />
-      </div>
+      <section className="mb-6">
+        <SectionLabel>Money</SectionLabel>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <KpiCard
+            tone="coral"
+            icon="₹"
+            label="Total Outstanding"
+            value={money0(totalOutstanding)}
+            hint={`${summaries.filter((x) => x.s.outstanding > 0).length} open bills`}
+          />
+          <KpiCard
+            tone="ink"
+            icon="🧾"
+            label="Net Billed Revenue"
+            value={money0(netBilled)}
+            hint={`${bills.length} bills posted`}
+          />
+          <KpiCard
+            tone="sun"
+            icon="✓"
+            label="Payment Receipts"
+            value={money0(receipts)}
+            hint={`${payments.length} receipts recorded`}
+          />
+        </div>
+      </section>
+
+      <section className="mb-8">
+        <SectionLabel>Operations</SectionLabel>
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <StatTile label="Total Trips" value={String(trips.length)} accent="ink" hint="Daily Book entries" />
+          <StatTile
+            label="Received · Billable"
+            value={String(trips.filter((t) => t.status === "RECEIVED").length)}
+            accent="turq"
+            hint="Available to bill"
+          />
+          <StatTile
+            label="Pending · Unbillable"
+            value={String(trips.filter((t) => t.status === "PENDING").length)}
+            accent="sun"
+            hint="Cannot be billed yet"
+          />
+          <StatTile
+            label="Driver Vouchers"
+            value={money0(voucherTotal)}
+            accent="coral"
+            hint="Pending confirmation"
+          />
+        </div>
+      </section>
 
       <div className="mb-8 grid gap-6 lg:grid-cols-3">
-        <Panel title="Billing breakdown">
-          <dl className="space-y-3 text-sm">
-            <Row label="Gross Freight" value={money(gross)} />
-            <Row label="Less: Shortage Debit Notes" value={`− ${money(shortage)}`} />
-            <Row label="Less: TDS Withheld" value={`− ${money(tds)}`} />
-            <div className="flex items-center justify-between border-t-2 border-dashed border-ink/20 pt-3">
-              <dt className="font-semibold">Net Bill Amount</dt>
-              <dd className="font-display text-xl font-bold tnum">{money(netBilled)}</dd>
-            </div>
-          </dl>
+        <Panel title="Billing breakdown" subtitle="How gross freight becomes net billed revenue.">
+          <div className="text-sm">
+            <CalcRow label="Gross Freight" value={gross} />
+            <CalcRow label="Shortage Debit Notes" value={shortage} deduction note="Valued at material rate" />
+            <CalcRow label="TDS Withheld" value={tds} deduction note="On gross freight" />
+            <CalcRow label="Net Bill Amount" value={netBilled} total />
+          </div>
         </Panel>
 
-        <Panel title="Payments">
-          <dl className="space-y-3 text-sm">
-            <Row label="Total Received" value={money(receipts)} />
-            <Row label="Against-Bill Payments" value={money(againstBill)} />
-            <Row label="Advance Payments" value={money(advances)} />
-            <div className="flex items-center justify-between rounded-2xl bg-sun/35 px-4 py-3">
-              <dt className="text-sm font-semibold">Unallocated advances</dt>
-              <dd className="font-semibold tnum">{money(unallocated)}</dd>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Unallocated advances are never netted against bill outstanding.
-            </p>
-          </dl>
+        <Panel title="Payments" subtitle="Receipts split by how they were applied.">
+          <div className="text-sm">
+            <CalcRow label="Total Received" value={receipts} />
+            <CalcRow label="Against-Bill Payments" value={againstBill} note="Settle a specific bill" />
+            <CalcRow label="Advance Payments" value={advances} note="Applied only when you allocate" />
+          </div>
+          <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl border-2 border-ink bg-sun/40 px-4 py-3">
+            <span className="text-sm font-semibold">Unallocated advances</span>
+            <MoneyDisplay value={unallocated} className="font-semibold" />
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Never netted against bill outstanding and never auto-allocated.
+          </p>
         </Panel>
+
 
         <Panel title="Aging" subtitle="Outstanding by age of bill">
           <div className="space-y-3">
