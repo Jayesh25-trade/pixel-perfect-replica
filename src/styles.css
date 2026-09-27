@@ -120,6 +120,7 @@
 
 @utility tnum {
   font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
 @utility card-flat {
@@ -127,6 +128,17 @@
   border: 2px solid var(--color-ink);
   border-radius: var(--radius-3xl);
   box-shadow: var(--shadow-flat-sm-value);
+}
+
+/* Inner surface used inside panels (detail tiles, sub-cards). */
+@utility card-inset {
+  background-color: var(--color-surface);
+  border: 2px solid oklch(0.19 0.012 75 / 12%);
+  border-radius: var(--radius-2xl);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
 @utility field {
@@ -139,6 +151,9 @@
   font-weight: 500;
   color: var(--color-foreground);
   outline: none;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
 }
 
 @utility field-label {
@@ -149,4 +164,37 @@
   font-weight: 600;
   color: var(--color-muted-foreground);
   margin-bottom: 0.35rem;
+}
+
+@layer base {
+  .field:hover {
+    border-color: oklch(0.19 0.012 75 / 30%);
+  }
+
+  .field:focus,
+  .field:focus-visible {
+    border-color: var(--color-ink);
+    box-shadow: 3px 3px 0 var(--color-ink);
+  }
+
+  /* Row / interactive affordances shared by every table in the app. */
+  tbody tr {
+    transition: background-color 140ms ease;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  /* Never let a wide financial table push the page sideways. */
+  html,
+  body {
+    overflow-x: hidden;
+  }
 }
